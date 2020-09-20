@@ -1,65 +1,65 @@
 # Environment Setting Guide
-ÂüÁ¶ÇÑ °¡ÀÌµå [¸µÅ©](https://mickael-k.tistory.com/15)
-## 1. Visual Studio ¼³Ä¡
-[VS ´Ù¿î·Îµå ¸µÅ©](https://visualstudio.microsoft.com/ko/)  
-*¼³¸í »ı·«*  
-## 2. CUDA & cuDNN ¼³Ä¡
-### 2.1. ±×·¡ÇÈÄ«µå È®ÀÎ
-#### 2.1.1. ÀåÄ¡ °ü¸®ÀÚ¿¡¼­ È®ÀÎ
+ì°¸ì¡°í•œ ê°€ì´ë“œ [ë§í¬](https://mickael-k.tistory.com/15)
+## 1. Visual Studio ì„¤ì¹˜
+[VS ë‹¤ìš´ë¡œë“œ ë§í¬](https://visualstudio.microsoft.com/ko/)  
+*ì„¤ëª… ìƒëµ*  
+## 2. CUDA & cuDNN ì„¤ì¹˜
+### 2.1. ê·¸ë˜í”½ì¹´ë“œ í™•ì¸
+#### 2.1.1. ì¥ì¹˜ ê´€ë¦¬ìì—ì„œ í™•ì¸
 ![device_manager](https://i.imgur.com/FSKpzFx.png)  
-[½ÃÀÛ] - [ÀåÄ¡ °ü¸®ÀÚ] - [µğ½ºÇÃ·¹ÀÌ ¾î´ğÅÍ]
-#### 2.1.2. GPU-Z ÇÁ·Î±×·¥ ÀÌ¿ë
-GPU-Z [´Ù¿î·Îµå ¸µÅ©](https://software.naver.com/software/summary.nhn?softwareId=MFS_100082)
-### 2.2. CUDA ¹öÀü È®ÀÎ
-[CUDA °ø½Ä À¥»çÀÌÆ®](https://www.wikiwand.com/en/CUDA#/GPUs_supported)
-1. Ctrl + F·Î ÀÚ½ÅÀÇ ±×·¡ÇÈÄ«µå¸¦ °Ë»ö
-2. CUDA ¹öÀü È®ÀÎ  
-¿¹) GTX 1650 -> 7.5  
-![cuda_table](https://i.imgur.com/AWt6grr.png)
-### 2.3. CUDA SDK ¹öÀü È®ÀÎ
-![cuda_sdk_table](https://i.imgur.com/0yrGcXn.png)
-### 2.4. CUDA ¼³Ä¡
-[´Ù¿î·Îµå ¸µÅ©](https://developer.nvidia.com/cuda-toolkit-archive)  
-* ÀÚ½ÅÀÌ È®ÀÎÇÑ SDK ¹öÀü¿¡ ¸Â´Â °ÍÀ» ¼³Ä¡ (network, local »ó°ü ¾øÀ½)  
-* µğÆúÆ® °æ·Î(C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\¹öÀü)¿¡ ¼³Ä¡ÇÏ¿´´Ù¸é, È¯°æ º¯¼ö´Â ÀÚµ¿À¸·Î Ãß°¡µÊ  
+[ì‹œì‘] - [ì¥ì¹˜ ê´€ë¦¬ì] - [ë””ìŠ¤í”Œë ˆì´ ì–´ëŒ‘í„°]
+#### 2.1.2. GPU-Z í”„ë¡œê·¸ë¨ ì´ìš©
+GPU-Z [ë‹¤ìš´ë¡œë“œ ë§í¬](https://software.naver.com/software/summary.nhn?softwareId=MFS_100082)
+### 2.2. CUDA ë²„ì „ í™•ì¸
+[CUDA ê³µì‹ ì›¹ì‚¬ì´íŠ¸](https://www.wikiwand.com/en/CUDA#/GPUs_supported)
+1. Ctrl + Fë¡œ ìì‹ ì˜ ê·¸ë˜í”½ì¹´ë“œë¥¼ ê²€ìƒ‰
+2. CUDA ë²„ì „ í™•ì¸  
+ì˜ˆ) GTX 1650 -> 7.5  
+![cuda_table](https://i.imgur.com/AWt6grr.png)  
+### 2.3. CUDA SDK ë²„ì „ í™•ì¸
+![cuda_sdk_table](https://i.imgur.com/0yrGcXn.png)  
+### 2.4. CUDA ì„¤ì¹˜
+[ë‹¤ìš´ë¡œë“œ ë§í¬](https://developer.nvidia.com/cuda-toolkit-archive)  
+* ìì‹ ì´ í™•ì¸í•œ SDK ë²„ì „ì— ë§ëŠ” ê²ƒì„ ì„¤ì¹˜ (network, local ìƒê´€ ì—†ìŒ)  
+* ë””í´íŠ¸ ê²½ë¡œ(C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\ë²„ì „)ì— ì„¤ì¹˜í•˜ì˜€ë‹¤ë©´, í™˜ê²½ ë³€ìˆ˜ëŠ” ìë™ìœ¼ë¡œ ì¶”ê°€ë¨  
   ![environment_variable_example](https://i.imgur.com/Tm3TgXY.png)
- È¯°æ º¯¼ö ¿¹½Ã
-### 2.5. cuDNN ¼³Ä¡
-[´Ù¿î·Îµå ¸µÅ©](https://developer.nvidia.com/rdp/cudnn-download)  
-*NVIDIA DEVELOPER¿¡ °¡ÀÔ ¹× ·Î±×ÀÎ ÇÊ¿ä*
+ í™˜ê²½ ë³€ìˆ˜ ì˜ˆì‹œ
+### 2.5. cuDNN ì„¤ì¹˜
+[ë‹¤ìš´ë¡œë“œ ë§í¬](https://developer.nvidia.com/rdp/cudnn-download)  
+*NVIDIA DEVELOPERì— ê°€ì… ë° ë¡œê·¸ì¸ í•„ìš”*
 1. ![cudnn_download](https://i.imgur.com/rBP7FZI.png)  
-ÀÚ½ÅÀÌ ¼³Ä¡ÇÑ CUDA ¹öÀü¿¡ ¸Â°Ô cuDNN ¼³Ä¡
+ìì‹ ì´ ì„¤ì¹˜í•œ CUDA ë²„ì „ì— ë§ê²Œ cuDNN ì„¤ì¹˜
 2. ![copy_paste_cudnn](https://i.imgur.com/XtVbf8w.png)  
-cuDNNÀ» ¾ĞÃà Ç®°í CUDA¸¦ ¼³Ä¡ÇÑ °÷¿¡ ºÙ¿©³Ö±â
-## 3. OpenCV ¼³Ä¡
-1. [´Ù¿î·Îµå ¸µÅ©](https://opencv.org/releases/)  
-**3.4.11**¹öÀü ¼³Ä¡
-2. ![opencv_in_c](https://i.imgur.com/mDutkvi.png)
-¾ĞÃà Ç®¾î¼­ ³ªÅ¸³­ opencv Æú´õ¸¦ ¿øÇÏ´Â °÷À¸·Î ÀÌµ¿ (ÆíÀÇ»ó C:\·Î °¡Á¤)
-3. ![search_environment_variable](https://i.imgur.com/dj1GjHM.png)
-[½ÃÀÛ] - ["È¯°æ º¯¼ö" °Ë»ö] - [(¾Æ¸¶)"½Ã½ºÅÛ È¯°æ º¯¼ö ÆíÁı" Å¬¸¯]
-`(À©µµ¿ì°¡ ¿µ¾î¶ó ÁË¼ÛÇÕ´Ï´Ù..)`
-4. ![system_variables_new](https://i.imgur.com/VV1LjcG.png)
-Path¸¦ ´õºíÅ¬¸¯ / Path ¼±ÅÃÇÏ°í "ÆíÁı" ¹öÆ° Å¬¸¯
-5. ![add_opencv_path](https://i.imgur.com/8fJJCPx.png)
-"»õ·Î ¸¸µé±â" ¹öÆ° ´©¸£°í **opencv\build\x64\vc14\bin°æ·Î(¿¹: C:\opencv\build\x64\vc14\bin)** Ãß°¡
-## 4. OpenCV Å×½ºÆ®
-Å¬·ĞÇÑ ÇÁ·ÎÁ§Æ®¸¦ ¿­°í Visual Studio¿¡¼­ [ÇÁ·ÎÁ§Æ®] - [¼Ó¼º]  
-*(´ÜÃàÅ°: Alt + Enter)*
-![c/c++_includepath_](https://i.imgur.com/QmC3Cwm.png)
-> **±¸¼º:** Debug  
-> **ÇÃ·§Æû:** x64  
-> [±¸¼º ¼Ó¼º] - [C/C++] - [ÀÏ¹İ] - [Ãß°¡ Æ÷ÇÔ µğ·ºÅÍ¸®]¿¡ **opencv\build\include°æ·Î(¿¹: C:\opencv\build\include)** Ãß°¡  
-> °°Àº ¹æ½ÄÀ¸·Î, ´ÙÀ½ ¿É¼ÇµéÀ» Ãß°¡  
-> > Debug ¸ğµå x64  
-> > > * [C/C++] - [ÀÏ¹İ] - [Ãß°¡ Æ÷ÇÔ µğ·ºÅÍ¸®]¿¡ **opencv\build\include°æ·Î(¿¹: C:\opencv\build\include)** Ãß°¡  
-> > > * [¸µÄ¿] - [ÀÏ¹İ] - [Ãß°¡ ¶óÀÌºê·¯¸® µğ·ºÅÍ¸®]¿¡ **opencv\build\x64\vc14\lib °æ·Î Ãß°¡  
-> > > * [¸µÄ¿] - [ÀÔ·Â] - [Ãß°¡ Á¾¼Ó¼º]¿¡ **opencv_world3411d.lib'¸¦ Ãß°¡  
+cuDNNì„ ì••ì¶• í’€ê³  CUDAë¥¼ ì„¤ì¹˜í•œ ê³³ì— ë¶™ì—¬ë„£ê¸°
+## 3. OpenCV ì„¤ì¹˜
+1. [ë‹¤ìš´ë¡œë“œ ë§í¬](https://opencv.org/releases/)  
+**3.4.11**ë²„ì „ ì„¤ì¹˜
+2. ![opencv_in_c](https://i.imgur.com/mDutkvi.png)  
+ì••ì¶• í’€ì–´ì„œ ë‚˜íƒ€ë‚œ opencv í´ë”ë¥¼ ì›í•˜ëŠ” ê³³ìœ¼ë¡œ ì´ë™ (í¸ì˜ìƒ C:\ë¡œ ê°€ì •)
+3. ![search_environment_variable](https://i.imgur.com/dj1GjHM.png)  
+[ì‹œì‘] - ["í™˜ê²½ ë³€ìˆ˜" ê²€ìƒ‰] - [(ì•„ë§ˆ)"ì‹œìŠ¤í…œ í™˜ê²½ ë³€ìˆ˜ í¸ì§‘" í´ë¦­]
+`(ìœˆë„ìš°ê°€ ì˜ì–´ë¼ ì£„ì†¡í•©ë‹ˆë‹¤..)`
+4. ![system_variables_new](https://i.imgur.com/VV1LjcG.png)  
+Pathë¥¼ ë”ë¸”í´ë¦­ / Path ì„ íƒí•˜ê³  "í¸ì§‘" ë²„íŠ¼ í´ë¦­
+5. ![add_opencv_path](https://i.imgur.com/8fJJCPx.png)  
+"ìƒˆë¡œ ë§Œë“¤ê¸°" ë²„íŠ¼ ëˆ„ë¥´ê³  **opencv\build\x64\vc14\binê²½ë¡œ(ì˜ˆ: C:\opencv\build\x64\vc14\bin)** ì¶”ê°€
+## 4. OpenCV í…ŒìŠ¤íŠ¸
+í´ë¡ í•œ í”„ë¡œì íŠ¸ë¥¼ ì—´ê³  Visual Studioì—ì„œ [í”„ë¡œì íŠ¸] - [ì†ì„±]  
+*(ë‹¨ì¶•í‚¤: Alt + Enter)*
+![c/c++_includepath_](https://i.imgur.com/QmC3Cwm.png)  
+> **êµ¬ì„±:** Debug  
+> **í”Œë«í¼:** x64  
+> [êµ¬ì„± ì†ì„±] - [C/C++] - [ì¼ë°˜] - [ì¶”ê°€ í¬í•¨ ë””ë ‰í„°ë¦¬]ì— **opencv\build\includeê²½ë¡œ(ì˜ˆ: C:\opencv\build\include)** ì¶”ê°€  
+> ê°™ì€ ë°©ì‹ìœ¼ë¡œ, ë‹¤ìŒ ì˜µì…˜ë“¤ì„ ì¶”ê°€  
+> > Debug ëª¨ë“œ x64  
+> > > * [C/C++] - [ì¼ë°˜] - [ì¶”ê°€ í¬í•¨ ë””ë ‰í„°ë¦¬]ì— **opencv\build\includeê²½ë¡œ(ì˜ˆ: C:\opencv\build\include)** ì¶”ê°€  
+> > > * [ë§ì»¤] - [ì¼ë°˜] - [ì¶”ê°€ ë¼ì´ë¸ŒëŸ¬ë¦¬ ë””ë ‰í„°ë¦¬]ì— **opencv\build\x64\vc14\lib ê²½ë¡œ ì¶”ê°€  
+> > > * [ë§ì»¤] - [ì…ë ¥] - [ì¶”ê°€ ì¢…ì†ì„±]ì— **opencv_world3411d.lib'ë¥¼ ì¶”ê°€  
 > > > 
-> > Release ¸ğµå x64  
-> > > * [C/C++] - [ÀÏ¹İ] - [Ãß°¡ Æ÷ÇÔ µğ·ºÅÍ¸®]¿¡ **opencv\build\include°æ·Î(¿¹: C:\opencv\build\include)** Ãß°¡  
-> > > * [¸µÄ¿] - [ÀÏ¹İ] - [Ãß°¡ ¶óÀÌºê·¯¸® µğ·ºÅÍ¸®]¿¡ **opencv\build\x64\vc14\lib °æ·Î Ãß°¡  
-> > > * [¸µÄ¿] - [ÀÔ·Â] - [Ãß°¡ Á¾¼Ó¼º]¿¡ **opencv_world3411.lib'¸¦ Ãß°¡  
+> > Release ëª¨ë“œ x64  
+> > > * [C/C++] - [ì¼ë°˜] - [ì¶”ê°€ í¬í•¨ ë””ë ‰í„°ë¦¬]ì— **opencv\build\includeê²½ë¡œ(ì˜ˆ: C:\opencv\build\include)** ì¶”ê°€  
+> > > * [ë§ì»¤] - [ì¼ë°˜] - [ì¶”ê°€ ë¼ì´ë¸ŒëŸ¬ë¦¬ ë””ë ‰í„°ë¦¬]ì— **opencv\build\x64\vc14\lib ê²½ë¡œ ì¶”ê°€  
+> > > * [ë§ì»¤] - [ì…ë ¥] - [ì¶”ê°€ ì¢…ì†ì„±]ì— **opencv_world3411.lib'ë¥¼ ì¶”ê°€  
 
-test.cpp ½ÇÇà (È¯°æÀÌ x64ÀÎÁö Ã¼Å©) -> *À¥Ä·ÀÌ ÄÑÁü*
-![opencv_test_result](https://i.imgur.com/S9go4Zp.png)
+test.cpp ì‹¤í–‰ (í™˜ê²½ì´ x64ì¸ì§€ ì²´í¬) -> *ì›¹ìº ì´ ì¼œì§*
+![opencv_test_result](https://i.imgur.com/S9go4Zp.png)  
