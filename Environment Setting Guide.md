@@ -44,7 +44,7 @@ Path를 더블클릭 / Path 선택하고 "편집" 버튼 클릭
 5. ![add_opencv_path](https://i.imgur.com/8fJJCPx.png)
 "새로 만들기" 버튼 누르고 **opencv\build\x64\vc14\bin경로(예: C:\opencv\build\x64\vc14\bin)** 추가
 ## 4. OpenCV 테스트
-클론한 프로젝트를 열고 Visual Studio에서 [프로젝트] - [속성]  
+Visual Studio에서 새 프로젝트(빈 프로젝트)를 만들고(OpenCV 테스트용) Visual Studio에서 [프로젝트] - [속성]  
 *(단축키: Alt + Enter)*
 ![c/c++_includepath_](https://i.imgur.com/QmC3Cwm.png)
 > **구성:** Debug  
@@ -61,5 +61,5 @@ Path를 더블클릭 / Path 선택하고 "편집" 버튼 클릭
 > > > * [링커] - [일반] - [추가 라이브러리 디렉터리]에 **opencv\build\x64\vc14\lib 경로 추가  
 > > > * [링커] - [입력] - [추가 종속성]에 **opencv_world3411.lib'를 추가  
 
-test.cpp 실행 (환경이 x64인지 체크) -> *웹캠이 켜짐*
+opencv_test 폴더 내의 test.cpp를 가져와서 실행 (환경이 x64인지 체크) -> *웹캠이 켜짐*
 ![opencv_test_result](https://i.imgur.com/S9go4Zp.png)
