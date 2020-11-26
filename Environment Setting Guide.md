@@ -43,16 +43,46 @@ cuDNN을 압축 풀고 CUDA를 설치한 곳에 붙여넣기
 
 
 ## 3. OpenCV 설치
-1. [다운로드 링크](https://opencv.org/releases/)  
-**3.4.11**버전 설치
-2. ![opencv_in_c](https://i.imgur.com/mDutkvi.png)  
-압축 풀어서 나타난 opencv 폴더를 원하는 곳으로 이동 (편의상 C:\로 가정)
-3. ![search_environment_variable](https://i.imgur.com/dj1GjHM.png)  
-[시작] - ["환경 변수" 검색] - [(아마)"시스템 환경 변수 편집" 클릭]
-4. ![system_variables_new](https://i.imgur.com/VV1LjcG.png)  
-Path를 더블클릭 / Path 선택하고 "편집" 버튼 클릭
-5. ![add_opencv_path](https://i.imgur.com/8fJJCPx.png)  
-"새로 만들기" 버튼 누르고 **opencv\build\x64\vc14\bin경로(예: C:\opencv\build\x64\vc14\bin)** 추가
+구버전 (CUDA 지원 미포함)
+>1. [다운로드 링크](https://opencv.org/releases/)  
+> **3.4.11**버전 설치
+>2. ![opencv_in_c](https://i.imgur.com/mDutkvi.png)  
+>압축 풀어서 나타난 opencv 폴더를 원하는 곳으로 이동 (편의상 C:\로 가정)
+>3. ![search_environment_variable](https://i.imgur.com/dj1GjHM.png)  
+>[시작] - ["환경 변수" 검색] - [(아마)"시스템 환경 변수 편집" 클릭]
+>4. ![system_variables_new](https://i.imgur.com/VV1LjcG.png)  
+>Path를 더블클릭 / Path 선택하고 "편집" 버튼 클릭
+>5. ![add_opencv_path](https://i.imgur.com/8fJJCPx.png)  
+>"새로 만들기" 버튼 누르고 **opencv\build\x64\vc14\bin경로(예: C:\opencv\build\x64\vc14\bin)** 추가  
+
+<s>신버전 (CUDA 지원)</s> dll 포함해서 올려놓음. 이 과정을 거칠 필요 없음..
+>1. [OpenCV 3.4.11 소스 다운로드 링크](https://github.com/opencv/opencv/archive/3.4.11.zip)
+>2. [cmake 다운로드 링크](https://cmake.org/download/)
+>3. cmake 인스톨 시, 환경 변수 추가하는 옵션에서는 **모든 사용자에 대하여 추가**를 권장
+>4. 다운로드 받은 OpenCV 소스를 압축 풀고, 압축 푼 디렉토리와 같은 위치에 'build' 빈 폴더를 생성
+>5. ![cmake_settings_1](https://i.imgur.com/uJZfrGw.png)
+>그림과 같이, Source code는 압축 푼 소스가 있는 경로, build binaries 위치는 새 폴더 'build'의 경로로 지정
+>6. ![cmake_settings_2](https://i.imgur.com/ZRFxKac.png)
+>그림과 같이, 본인의 Visual Studio 버전에 맞는 것으로 0선택 후 두 번째는 32비트의 경우 Win32를, 64비트의 경우 x64를 지정
+>7. ![cmake_settings_3](https://i.imgur.com/QL6LmVN.png)
+>Finish를 누르고 기다리면, 다음과 같이 빌드 옵션 체크리스트가 나타남
+>8. 다음과 같이 설정할 것 [참고 사이트](https://m.blog.naver.com/PostView.nhn?blogId=msm2570&logNo=221333488789&proxyReferer=https:%2F%2Fwww.google.com%2F)  
+>*만약 다시 설정하고 싶다면, [File] - [Delete Cache] 누르면 설정이 초기화된다*
+>* 체크
+>  * CUDA 사용 시, WITH_CUDA 체크
+>  * BUILD_EXAMPLES를 체크 시 예제 소스코드와 빌드된 파일이 제공됨 (안 해도 무방)
+>* 체크 해제
+>  * test라고 검색 후 전부 체크 해제
+>  * 기존에 파이썬이 설치되어 있는 경우, python 검색하여 **BUILD_opencv_python3**, **BUILD_opencv_python_bindings_generator** 체크 해제
+>  * package 검색 후 BUILD_PACKAGE 체크 해제
+>  * 그 외 안 쓰는 패키지들
+>    * 1394, vtk, matlab, lapack
+>* 값 입력
+>  * install을 검색 후 CMAKE_INSTALL_PREFIX에 build를 지정 (안 해도 무방)
+>9. configure 눌러서 opencv_world 체크하고 다시 configure (opencv_world는 마지막에 생성하는 것이 좋음)
+>10. Configuring Done이 뜨면 Generate 누름 - 비주얼 스튜디오 솔루션 생성됨
+>11. Open Project 누르면 비주얼 스튜디오가 켜지고 해당 솔루션이 불러와짐
+>12. ALL_BUILD 항목에 우클릭 후 빌드 - *엄청나게 오래 걸림..*
 
 
 ## 4. OpenCV 테스트
