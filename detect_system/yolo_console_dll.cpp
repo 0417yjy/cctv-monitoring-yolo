@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <sstream> // std::istringstream
 #include <vector>
 #include <queue>
 #include <fstream>
@@ -9,7 +10,11 @@
 #include <atomic>
 #include <mutex>         // std::mutex, std::unique_lock
 #include <cmath>
+#include "Falling.h"
 #define OPENCV
+
+const int fps = 55;
+int sec = 0;
 
 
 // It makes sense only for video-Camera (not for video-File)
@@ -270,6 +275,71 @@ public:
     {}
 };
 
+void print_bbox(bbox_t box) {
+    std::cout << "xywh: " << box.x << ' ' << box.y << ' ' << box.w << ' ' << box.h << std::endl;
+    std::cout << "prob: " << box.prob << std::endl;
+    std::cout << "obj_id, track_id, frames_counter: " << box.obj_id << ' ' << box.track_id << ' ' << box.frames_counter << std::endl;
+    std::cout << "float x_3d, y_3d, z_3d: " << box.x_3d << ' ' << box.y_3d<< ' ' << box.z_3d << std::endl;
+}
+
+std::vector<bbox_t> get_bbox_from_file(int fpx_counter, std::string& filename) {
+    //struct bbox_t {
+    //    unsigned int x, y, w, h;       // (x,y) - top-left corner, (w, h) - width & height of bounded box
+    //    float prob;                    // confidence - probability that the object was found correctly
+    //    unsigned int obj_id;           // class of object - from range [0, classes-1]
+    //    unsigned int track_id;         // tracking id for video (0 - untracked, 1 - inf - tracked object)
+    //    unsigned int frames_counter;   // counter of frames on which the object was detected
+    //    float x_3d, y_3d, z_3d;        // center of object (in Meters) if ZED 3D Camera is used
+    //};
+
+    std::vector<bbox_t> result;
+    std::ifstream fp;
+    std::string s;
+
+    s.reserve(2000);
+    fp.open(filename);
+    for (int i = 0; i < fpx_counter + sec*fps; i++) { // skip fpx
+        std::getline(fp, s);
+    }
+    
+    // get line
+    std::getline(fp, s);
+    // std::cout << fpx_counter + sec * fps << ": " << s << std::endl;
+
+    // split by ';'
+    std::istringstream outerstream(s);
+    std::string boxinfo;
+    while (std::getline(outerstream, boxinfo, ';')) {
+        std::istringstream innerstream(boxinfo);
+        std::string info_component;
+        std::vector<std::string> v;
+        // split by ' '
+
+        // push infos to the vector
+        while (std::getline(innerstream, info_component, ' ')) {
+            v.push_back(info_component);
+        }
+
+        // make a new bbox and initialize
+        bbox_t added;
+        added.x = std::stoi(v[0]);
+        added.y = std::stoi(v[1]);
+        added.w = std::stoi(v[2]);
+        added.h = std::stoi(v[3]);
+        added.prob = std::stof(v[4]);
+        added.obj_id = std::stoi(v[5]);
+        added.track_id = std::stoi(v[6]);
+        added.frames_counter = fpx_counter + sec * fps;
+        //print_bbox(added);
+        
+        result.push_back(added);
+    }
+
+    fp.close();
+
+    return result;
+}
+
 int main(int argc, char *argv[])
 {
     std::string  names_file = "coco.names";
@@ -404,9 +474,9 @@ int main(int argc, char *argv[])
 
                 const bool sync = detection_sync; // sync data exchange
                 send_one_replaceable_object_t<detection_data_t> cap2prepare(sync), cap2draw(sync),
-                    prepare2detect(sync), detect2draw(sync), draw2show(sync), draw2write(sync), draw2net(sync);
+                    prepare2detect(sync), detect2draw(sync), detect2falling(sync), draw2show(sync), draw2write(sync), draw2net(sync);
 
-                std::thread t_cap, t_prepare, t_detect, t_post, t_draw, t_write, t_network;
+                std::thread t_cap, t_prepare, t_detect, t_post, t_draw, t_write, t_network, t_detect_falling;
 
                 // capture new video-frame
                 if (t_cap.joinable()) t_cap.join();
@@ -478,15 +548,23 @@ int main(int argc, char *argv[])
                         det_image = detection_data.det_image;
                         std::vector<bbox_t> result_vec;
 
-                        if(det_image)
-                            result_vec = detector.detect_resized(*det_image, frame_size.width, frame_size.height, thresh, true);  // true
+                        if (det_image) {
+                            //result_vec = detector.detect_resized(*det_image, frame_size.width, frame_size.height, thresh, true);  // true
+
+                            // object detection 대신 파일에서 임의로 box를 가져옴
+                            result_vec = get_bbox_from_file(fps_det_counter, filename+"-boxes.txt");
+                            //print_bbox(result_vec[0]);
+                        }
                         fps_det_counter++;
+                        
                         //std::this_thread::sleep_for(std::chrono::milliseconds(150));
 
                         detection_data.new_detection = true;
                         detection_data.result_vec = result_vec;
                         detect2draw.send(detection_data);
+                        //detect2falling.send(detection_data); // t_detect_falling 스레드로 데이터 전송
                     } while (!detection_data.exit_flag);
+                    // std::cout << fps_det_counter << std::endl;
                     std::cout << " t_detect exit \n";
                 });
 
@@ -537,25 +615,25 @@ int main(int argc, char *argv[])
                         }
                         detection_data.new_detection = true;    // to correct kalman filter
 #endif //TRACK_OPTFLOW
+                        // 트랙킹은 진행하지 않음
+                        //// track ID by using kalman filter
+                        //if (use_kalman_filter) {
+                        //    if (detection_data.new_detection) {
+                        //        result_vec = track_kalman.correct(result_vec);
+                        //    }
+                        //    else {
+                        //        result_vec = track_kalman.predict();
+                        //    }
+                        //}
+                        //// track ID by using custom function
+                        //else {
+                        //    int frame_story = std::max(5, current_fps_cap.load());
+                        //    result_vec = detector.tracking_id(result_vec, true, frame_story, 40);
+                        //}
 
-                        // track ID by using kalman filter
-                        if (use_kalman_filter) {
-                            if (detection_data.new_detection) {
-                                result_vec = track_kalman.correct(result_vec);
-                            }
-                            else {
-                                result_vec = track_kalman.predict();
-                            }
-                        }
-                        // track ID by using custom function
-                        else {
-                            int frame_story = std::max(5, current_fps_cap.load());
-                            result_vec = detector.tracking_id(result_vec, true, frame_story, 40);
-                        }
-
-                        if (use_zed_camera && !detection_data.zed_cloud.empty()) {
-                            result_vec = get_3d_coordinates(result_vec, detection_data.zed_cloud);
-                        }
+                        //if (use_zed_camera && !detection_data.zed_cloud.empty()) {
+                        //    result_vec = get_3d_coordinates(result_vec, detection_data.zed_cloud);
+                        //}
 
                         //small_preview.set(draw_frame, result_vec);
                         //large_preview.set(draw_frame, result_vec);
@@ -564,13 +642,34 @@ int main(int argc, char *argv[])
                         //large_preview.draw(draw_frame);
                         //small_preview.draw(draw_frame, true);
 
-                        detection_data.result_vec = result_vec;
                         detection_data.draw_frame = draw_frame;
                         draw2show.send(detection_data);
                         if (send_network) draw2net.send(detection_data);
                         if (output_video.isOpened()) draw2write.send(detection_data);
                     } while (!detection_data.exit_flag);
                     std::cout << " t_draw exit \n";
+                });
+
+                // 낙상 인식 스레드를 따로 만들어서 낙상 검출
+                t_detect_falling = std::thread([&]() {
+                    detection_data_t detection_data;
+                    FallingDetector fd;
+                    unsigned int fps_counter = 0;
+                    
+                    do {
+                        detection_data = detect2falling.receive();
+                        if (detection_data.new_detection) {
+                            bool falling_detected = fd.processDetectResult(detection_data.result_vec, fps_counter++);
+                            if (falling_detected) {
+                                // 낙상 검출 후처리
+                                std::cout << "낙상 발견!" << std::endl;
+                                if (fd.isEmergency()) {
+                                    // follow-up measures-
+                                    std::cout << "긴급환자 발견!" << std::endl;
+                                }
+                            }
+                        }
+                    } while (detection_data.exit_flag);
                 });
 
 
@@ -619,6 +718,7 @@ int main(int argc, char *argv[])
                         steady_start = steady_end;
                         fps_det_counter = 0;
                         fps_cap_counter = 0;
+                        sec++;
                     }
 
                     detection_data = draw2show.receive();

@@ -129,12 +129,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Falling.cpp" />
     <ClCompile Include="yolo_console_dll.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="x64\yolo_cpp_dll.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Falling.h" />
     <ClInclude Include="yolo_v2_class.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
