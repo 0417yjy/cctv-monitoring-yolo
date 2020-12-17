@@ -474,7 +474,7 @@ int main(int argc, char *argv[])
 
                 const bool sync = detection_sync; // sync data exchange
                 send_one_replaceable_object_t<detection_data_t> cap2prepare(sync), cap2draw(sync),
-                    prepare2detect(sync), detect2draw(sync), detect2falling(sync), draw2show(sync), draw2write(sync), draw2net(sync);
+                    prepare2detect(sync), detect2draw(sync), draw2show(sync), draw2write(sync), draw2net(sync);
 
                 std::thread t_cap, t_prepare, t_detect, t_post, t_draw, t_write, t_network, t_detect_falling;
 
@@ -573,6 +573,8 @@ int main(int argc, char *argv[])
                 {
                     std::queue<cv::Mat> track_optflow_queue;
                     detection_data_t detection_data;
+                    unsigned int fps_counter = 0;
+                    FallingDetector fd(fps);
                     do {
 
                         // for Video-file
@@ -642,6 +644,32 @@ int main(int argc, char *argv[])
                         //large_preview.draw(draw_frame);
                         //small_preview.draw(draw_frame, true);
 
+                        //std::cout << "calling processDetectResult" << std::endl;
+                        int falling_detected_code = fd.processDetectResult(detection_data.result_vec, fps_counter++);
+                        switch (falling_detected_code) {
+                        // 낙상 검출 후처리
+                        case 1:
+                            std::cout << "정상 낙상 발견!"; // falling_person을 거쳐 fallen_person이 나타난 경우
+                            //std::cout << " - " << fps_counter;
+                            std::cout << std::endl;
+                            break;
+                        case 2:
+                            std::cout << "비정상 낙상 발견!"; // falling_person을 거치지 않고 fallen_person이 나타난 경우
+                            //std::cout << " - " << fps_counter;
+                            std::cout << std::endl;
+                            break;
+                        case 0:
+                            // do nothing
+                            break;
+                        }
+                        if (fd.isEmergency()) {
+                            // follow-up measures-
+                            std::cout << "긴급환자 발견!";
+                            //std::cout << " - " << fps_counter;
+                            std::cout << std::endl;
+                        }
+                        //fd.dumpList();
+
                         detection_data.draw_frame = draw_frame;
                         draw2show.send(detection_data);
                         if (send_network) draw2net.send(detection_data);
@@ -651,26 +679,27 @@ int main(int argc, char *argv[])
                 });
 
                 // 낙상 인식 스레드를 따로 만들어서 낙상 검출
-                t_detect_falling = std::thread([&]() {
-                    detection_data_t detection_data;
-                    FallingDetector fd;
-                    unsigned int fps_counter = 0;
-                    
-                    do {
-                        detection_data = detect2falling.receive();
-                        if (detection_data.new_detection) {
-                            bool falling_detected = fd.processDetectResult(detection_data.result_vec, fps_counter++);
-                            if (falling_detected) {
-                                // 낙상 검출 후처리
-                                std::cout << "낙상 발견!" << std::endl;
-                                if (fd.isEmergency()) {
-                                    // follow-up measures-
-                                    std::cout << "긴급환자 발견!" << std::endl;
-                                }
-                            }
-                        }
-                    } while (detection_data.exit_flag);
-                });
+                //t_detect_falling = std::thread([&]() {
+                //    detection_data_t detection_data;
+                //    FallingDetector fd(fps);
+                //    unsigned int fps_counter = 0;
+                //    
+                //    do {
+                //        detection_data = detect2falling.receive();
+                //        if (detection_data.new_detection) {
+                //            bool falling_detected = fd.processDetectResult(detection_data.result_vec, fps_counter++);
+                //            if (falling_detected) {
+                //                // 낙상 검출 후처리
+                //                std::cout << "낙상 발견!" << std::endl;
+                //                if (fd.isEmergency()) {
+                //                    // follow-up measures-
+                //                    std::cout << "긴급환자 발견!" << std::endl;
+                //                }
+                //            }
+                //        }
+                //    } while (detection_data.exit_flag);
+                //    std::cout << " t_detect_falling exit \n";
+                //});
 
 
                 // write frame to videofile
